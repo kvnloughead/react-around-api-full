@@ -9,11 +9,11 @@ const app = express();
 app.use('/users', users);
 app.use('/cards', cards);
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use((req, res) => {
   res.status(404).json({ message: 'Requested resource not found' });
 });
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.listen(PORT, () => {
   console.log(`App listening at port ${PORT}`);
