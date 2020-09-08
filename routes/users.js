@@ -14,4 +14,21 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:id', (req, res) => {
+  const filePath = path.join(__dirname, '..', 'data', 'users.json');
+  fs.readFile(filePath, { encoding: 'utf8' }, (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const users = JSON.parse(data);
+    const user = users.filter((item) => item._id === req.params.id)[0];
+    if (user) {
+      res.send(user);
+    } else {
+      res.status(404).json({ message: 'User ID not found' });
+    }
+  });
+});
+
 module.exports = router;
