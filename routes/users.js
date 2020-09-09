@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
   const filePath = path.join(__dirname, '..', 'data', 'users.json');
   fs.readFile(filePath, { encoding: 'utf8' }, (err, data) => {
     if (err) {
-      res.status(404).json({ message: 'Requested resource not found' });
+      res.status(500).json({ message: 'Requested resource not found' });
       console.log(err);
       return;
     }
@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
   const filePath = path.join(__dirname, '..', 'data', 'users.json');
   fs.readFile(filePath, { encoding: 'utf8' }, (err, data) => {
     if (err) {
-      res.status(404).json({ message: 'Requested resource not found' });
+      res.status(500).json({ message: 'Requested resource not found' });
       console.log(err);
       return;
     }
