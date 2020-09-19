@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     validate: {
       validator(v) {
         // regex link for debugging - https://regex101.com/r/il9tko/1
-        const pattern = /^(http:\/\/|https:\/\/)(www.)?[a-z0-9.\-/]+#?$/igm;
+        const pattern = /^(http:\/\/|https:\/\/)(www.)?.+#?$/igm;
         return pattern.test(v);
       },
     },
