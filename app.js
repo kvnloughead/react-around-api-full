@@ -10,6 +10,13 @@ const app = express();
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5f66852eb4f7d3266c3b4e04',
+  };
+  next();
+});
+
 mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
   useNewUrlParser: true,
   useCreateIndex: true,

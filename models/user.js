@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        // regex link for debugging - https://regex101.com/r/il9tko/1
         const pattern = /^(http:\/\/|https:\/\/)(www.)?.+#?$/igm;
         return pattern.test(v);
       },
