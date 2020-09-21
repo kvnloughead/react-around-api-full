@@ -8,7 +8,6 @@ const errorCodes = {
 module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    // .populate('owner')`
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       const statusCode = errorCodes[err.name] || 500;
@@ -18,7 +17,6 @@ module.exports.createCard = (req, res) => {
 
 module.exports.getCards = (req, res) => {
   Card.find({})
-    // .populate('owner')
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       const statusCode = errorCodes[err.name] || 500;

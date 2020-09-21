@@ -32,3 +32,33 @@ module.exports.createUser = (req, res) => {
       res.status(statusCode).send({ message: 'Error', [err.name]: err });
     });
 };
+
+module.exports.updateUser = (req, res) => {
+  User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { $set: { name: req.body.name, about: req.body.about } },
+    { new: true },
+  )
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      const statusCode = errorCodes[err.name] || 500;
+      res.status(statusCode).send({ message: 'Error', [err.name]: err });
+    });
+};
+
+module.exports.updateAvatar = (req, res) => {
+  User.findByIdAndUpdate(
+    { _id: req.user._id },
+    { avatar: req.body.avatar },
+    { new: true },
+  )
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((err) => {
+      const statusCode = errorCodes[err.name] || 500;
+      res.status(statusCode).send({ message: 'Error', [err.name]: err });
+    });
+};
