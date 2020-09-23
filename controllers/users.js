@@ -1,29 +1,36 @@
 const User = require('../models/user');
 
-const errorCodes = {
-  ValidationError: 400,
-  CastError: 404,
-};
-
-const handleErrors = (err, res) => {
-  console.log({ [err.name]: err });
-  const statusCode = errorCodes[err.name] || 500;
-  res.status(statusCode).send({ message: 'Error' });
-};
-
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'User not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.id)
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user) {
+        res.send({ data: user });
+      } else {
+        res.status(404).send({ message: 'User not found.' });
+      }
+    })
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'User not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
@@ -32,7 +39,13 @@ module.exports.createUser = (req, res) => {
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'User not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
@@ -46,7 +59,13 @@ module.exports.updateUser = (req, res) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'User not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
@@ -60,6 +79,12 @@ module.exports.updateAvatar = (req, res) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'User not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };

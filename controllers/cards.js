@@ -1,21 +1,16 @@
 const Card = require('../models/card');
 
-const errorCodes = {
-  ValidationError: 400,
-  CastError: 404,
-};
-
-const handleErrors = (err, res) => {
-  console.log({ [err.name]: err });
-  const statusCode = errorCodes[err.name] || 500;
-  res.status(statusCode).send({ message: 'Error' });
-};
-
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  card cannot be created' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'Card not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
@@ -28,17 +23,33 @@ module.exports.createCard = (req, res) => {
   })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'Card not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
 module.exports.deleteCardById = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
-    .then((user) => {
-      res.send({ data: user });
+    .then((card) => {
+      if (card) {
+        res.send({ data: card });
+      } else {
+        res.status(404).send({ message: 'Card not found.' });
+      }
     })
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'Card not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
@@ -48,9 +59,21 @@ module.exports.likeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user) {
+        res.send({ data: user });
+      } else {
+        res.status(404).send({ message: 'Card not found.' });
+      }
+    })
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  card cannot be created.Card not found' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'Card not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
 
@@ -60,8 +83,20 @@ module.exports.dislikeCard = (req, res) => {
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      if (user) {
+        res.send({ data: user });
+      } else {
+        res.status(404).send({ message: 'Card not found.' });
+      }
+    })
     .catch((err) => {
-      handleErrors(err, res);
+      if (err.name === 'ValidationError') {
+        res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
+      } else if (err.name === 'CastError') {
+        res.status(404).send({ message: 'Card not found.' });
+      } else {
+        res.status(500).send({ message: 'Internal server error' });
+      }
     });
 };
