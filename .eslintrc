@@ -3,5 +3,8 @@
   "rules": {
     "no-console": "off",
     "no-underscore-dangle": "off"
+  },
+  "globals": {
+    "assert": true
   }
 }

@@ -1,4 +1,12 @@
+const assert = require('assert');
 const User = require('../models/user');
+
+User.on('index', (err) => {
+  assert.ifError(err);
+  // User.create([{ name: 'Val' }, { name: 'Val' }], (error) => {
+  //   console.log(error);
+  // });
+});
 
 module.exports.getUsers = (req, res) => {
   User.find({})
@@ -35,8 +43,15 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const
+    {
+      name, about, avatar, email, password,
+    } = req.body;
+  User.create(
+    {
+      name, about, avatar, email, password,
+    },
+  )
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
