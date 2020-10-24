@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
+const { login, createUser } = require('./controllers/users');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -26,6 +27,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
 
 app.use('/users', users);
 app.use('/cards', cards);
+app.post('/signin', login);
+app.post('/signup', createUser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
