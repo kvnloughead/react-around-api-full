@@ -3,20 +3,15 @@ const path = require('path');
 const mongoose = require('mongoose');
 const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
+
 const { login, createUser } = require('./controllers/users');
+const auth = require('./middleware/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5f66852eb4f7d3266c3b4e04',
-  };
-  next();
-});
 
 mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
   useNewUrlParser: true,
@@ -25,8 +20,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
   useUnifiedTopology: true,
 });
 
-app.use('/users', users);
-app.use('/cards', cards);
+app.use('/users', auth, users);
+app.use('/cards', auth, cards);
 app.post('/signin', login);
 app.post('/signup', createUser);
 
