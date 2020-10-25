@@ -59,26 +59,6 @@ module.exports.deleteCardById = (req, res) => {
       }
     });
 };
-  // Card.findByIdAndRemove(req.params.cardId)
-  //   .then((card) => {
-  //     if (card && card.owner === req.user._id) {
-  //       res.send({ data: card });
-  //     } else if (!card) {
-  //       res.status(404).send({ message: 'Card not found.' });
-  //     } else {
-  //       res.status(401).send({ message: 'Authorization required.  You can only delete your own cards.'});
-  //     }
-  //   })
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
-//       } else if (err.name === 'CastError') {
-//         res.status(404).send({ message: 'Card not found.' });
-//       } else {
-//         res.status(500).send({ message: 'Internal server error' });
-//       }
-//     });
-// };
 
 module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(

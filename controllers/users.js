@@ -1,19 +1,14 @@
 /* eslint-disable consistent-return */
-const assert = require('assert');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-User.on('index', (err) => {
-  assert.ifError(err);
-});
-
 module.exports.getUsers = (req, res) => {
-  User.find({})
+  User.find({}).select('+password')
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: '1 Data validation failed:  user cannot be created' });
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
       } else if (err.name === 'CastError') {
         res.status(404).send({ message: 'User not found.' });
       } else {
@@ -23,7 +18,7 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params.id)
+  User.findById(req.params.id).select('+password')
     .then((user) => {
       if (user) {
         res.send({ data: user });
@@ -33,7 +28,7 @@ module.exports.getUserById = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: '2 Data validation failed:  user cannot be created' });
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
       } else if (err.name === 'CastError') {
         res.status(404).send({ message: 'User not found.' });
       } else {
@@ -60,7 +55,7 @@ module.exports.createUser = (req, res) => {
       console.log(err)
       if (err.name === 'ValidationError') {
         console.log(err);
-        res.status(400).send({ message: '3 Data validation failed:  user cannot be created' });
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
       } else if (err.name === 'CastError') {
         res.status(404).send({ message: 'User not found.' });
       } else {
@@ -74,13 +69,13 @@ module.exports.updateUser = (req, res) => {
     { _id: req.user._id },
     { $set: { name: req.body.name, about: req.body.about } },
     { new: true, runValidators: true },
-  )
+  ).select('+password')
     .then((user) => {
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: '4 Data validation failed:  user cannot be created' });
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
       } else if (err.name === 'CastError') {
         res.status(404).send({ message: 'User not found.' });
       } else {
@@ -94,13 +89,13 @@ module.exports.updateAvatar = (req, res) => {
     { _id: req.user._id },
     { avatar: req.body.avatar },
     { new: true, runValidators: true },
-  )
+  ).select('+password')
     .then((user) => {
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: '5 Data validation failed:  user cannot be created' });
+        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
       } else if (err.name === 'CastError') {
         res.status(404).send({ message: 'User not found.' });
       } else {
@@ -111,7 +106,7 @@ module.exports.updateAvatar = (req, res) => {
 
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
-  User.findOne({ email })
+  User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
         Promise.reject(new Error('Incorrect password or email'));

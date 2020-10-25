@@ -23,6 +23,7 @@ module.exports = (req, res, next) => {
   req.user = payload;
 
   User.findOne(req.email)
+    .select('+password')
     .then((user) => {
       req.user._id = user._id;
     })
