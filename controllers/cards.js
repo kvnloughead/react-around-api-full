@@ -2,7 +2,8 @@ const Card = require('../models/card');
 
 module.exports.getCards = (req, res) => {
   Card.find({})
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      res.send({ data: card })})
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Data validation failed:  card cannot be created' });
@@ -21,7 +22,9 @@ module.exports.createCard = (req, res) => {
     link,
     owner: req.user._id,
   })
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      res.send({ data: card });
+    })
     .catch((err) => {
       if (err.name === 'ValidationError') {
         res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
@@ -34,12 +37,16 @@ module.exports.createCard = (req, res) => {
 };
 
 module.exports.deleteCardById = (req, res) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .then((card) => {
-      if (card) {
-        res.send({ data: card });
-      } else {
+      if (card && req.user._id.toString() === card.owner.toString()) {
+        Card.deleteOne(card).then((deletedCard) => {
+          res.send({ data: deletedCard });
+        });
+      } else if (!card) {
         res.status(404).send({ message: 'Card not found.' });
+      } else {
+        res.status(401).send({ message: 'Authorization required.  You can only delete your own cards.'});
       }
     })
     .catch((err) => {
@@ -52,6 +59,26 @@ module.exports.deleteCardById = (req, res) => {
       }
     });
 };
+  // Card.findByIdAndRemove(req.params.cardId)
+  //   .then((card) => {
+  //     if (card && card.owner === req.user._id) {
+  //       res.send({ data: card });
+  //     } else if (!card) {
+  //       res.status(404).send({ message: 'Card not found.' });
+  //     } else {
+  //       res.status(401).send({ message: 'Authorization required.  You can only delete your own cards.'});
+  //     }
+  //   })
+//     .catch((err) => {
+//       if (err.name === 'ValidationError') {
+//         res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
+//       } else if (err.name === 'CastError') {
+//         res.status(404).send({ message: 'Card not found.' });
+//       } else {
+//         res.status(500).send({ message: 'Internal server error' });
+//       }
+//     });
+// };
 
 module.exports.likeCard = (req, res) => {
   Card.findByIdAndUpdate(

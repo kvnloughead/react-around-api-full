@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
@@ -19,8 +20,11 @@ module.exports = (req, res, next) => {
       .status(401)
       .send({ message: 'Authorization Required' });
   }
-
   req.user = payload;
 
-  next();
+  User.findOne(req.email)
+    .then((user) => {
+      req.user._id = user._id;
+    })
+    .then(() => next());
 };
