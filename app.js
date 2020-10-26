@@ -28,15 +28,13 @@ app.post('/signup', createUser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res) => {
-//   res.status(404).json({ message: 'Requested resource not found' });
-// });
-
 app.use((err, req, res, next) => {
-  if (!err.statusCode) {
-    throw new InternalServerError('An error occurred on the server.');
-  }
-  res.status(err.statusCode).send({ message: err.message });
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({ message: statusCode === 500 ? 'An error has occured on the server' : message });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ message: 'Requested resource not found' });
 });
 
 app.listen(PORT, () => {

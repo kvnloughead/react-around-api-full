@@ -1,43 +1,34 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const BadRequestError = require('../errors/BadRequestError');
+const NotFoundError = require('../errors/NotFoundError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 const User = require('../models/user');
 
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({}).select('+password')
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'User not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
-      }
-    });
+    .catch(next);
 };
 
-module.exports.getUserById = (req, res) => {
+module.exports.getUserById = (req, res, next) => {
   User.findById(req.params.id).select('+password')
     .then((user) => {
       if (user) {
         res.send({ data: user });
-      } else {
-        res.status(404).send({ message: 'User not found.' });
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'User not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+      if (err.name === 'CastError' || err.name === 'TypeError') {
+        throw new NotFoundError('User not found.');
       }
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const
     {
       name, about, avatar, email, password,
@@ -52,19 +43,15 @@ module.exports.createUser = (req, res) => {
     }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      console.log(err)
-      if (err.name === 'ValidationError') {
-        console.log(err);
-        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'User not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+      if (err.name === 'ValidationError' || err.name === 'MongoError') {
+        throw new BadRequestError('Data validation failed:  user cannot be created');
       }
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
-module.exports.updateUser = (req, res) => {
+module.exports.updateUser = (req, res, next) => {
   User.findByIdAndUpdate(
     { _id: req.user._id },
     { $set: { name: req.body.name, about: req.body.about } },
@@ -75,16 +62,14 @@ module.exports.updateUser = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'User not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+        throw new BadRequestError('Data validation failed:  user cannot be modified in this way.');
       }
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
-module.exports.updateAvatar = (req, res) => {
+module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
     { _id: req.user._id },
     { avatar: req.body.avatar },
@@ -95,34 +80,30 @@ module.exports.updateAvatar = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  user cannot be created' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'User not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+        throw new BadRequestError('Data validation failed:  user cannot be modified in this way.');
       }
-    });
+      next(err);
+    })
+    .catch(next);
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        Promise.reject(new Error('Incorrect password or email'));
+        throw new UnauthorizedError('Incorrect password or email.');
       } else {
         return bcrypt.compare(password, user.password);
       }
     })
     .then((matched) => {
       if (!matched) {
-        return Promise.reject(new Error('Incorrect password or email'));
+        throw new UnauthorizedError('Incorrect password or email.');
       }
       const token = jwt.sign({ _id: req._id }, 'super-strong-secret', { expiresIn: '7d' });
       res.cookie('token', token, { httpOnly: true });
       res.json({ token });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
-    });
+    .catch(next);
 };
