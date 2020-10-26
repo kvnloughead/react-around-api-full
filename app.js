@@ -6,6 +6,7 @@ const cards = require('./routes/cards.js');
 
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
+const InternalServerError = require('./errors/InternalServerError.js');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -27,8 +28,15 @@ app.post('/signup', createUser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'Requested resource not found' });
+// app.use((req, res) => {
+//   res.status(404).json({ message: 'Requested resource not found' });
+// });
+
+app.use((err, req, res, next) => {
+  if (!err.statusCode) {
+    throw new InternalServerError('An error occurred on the server.');
+  }
+  res.status(err.statusCode).send({ message: err.message });
 });
 
 app.listen(PORT, () => {

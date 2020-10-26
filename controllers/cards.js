@@ -1,21 +1,21 @@
+const BadRequestError = require('../errors/BadRequestError');
+const InternalServerError = require('../errors/InternalServerError');
+const NotFoundError = require('../errors/NotFoundError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 const Card = require('../models/card');
 
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((card) => {
-      res.send({ data: card })})
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  card cannot be created' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
-      }
-    });
+      res.send({ data: card });
+    })
+    .catch(() => {
+      throw new InternalServerError('An error has occured on the server');
+    })
+    .catch(next);
 };
 
-module.exports.createCard = (req, res) => {
+module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({
     name,
@@ -27,16 +27,13 @@ module.exports.createCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+        throw new BadRequestError('Data validation failed:  card cannot be created.');
       }
-    });
+    })
+    .catch(next);
 };
 
-module.exports.deleteCardById = (req, res) => {
+module.exports.deleteCardById = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((card) => {
       if (card && req.user._id.toString() === card.owner.toString()) {
@@ -44,66 +41,57 @@ module.exports.deleteCardById = (req, res) => {
           res.send({ data: deletedCard });
         });
       } else if (!card) {
-        res.status(404).send({ message: 'Card not found.' });
+        throw new NotFoundError('Card not found.');
       } else {
-        res.status(401).send({ message: 'Authorization required.  You can only delete your own cards.'});
+        throw new UnauthorizedError('Authorization required.  You can only delete your own cards.');
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+      if (err.name === 'CastError') {
+        throw new NotFoundError('Card not found.');
       }
-    });
+    })
+    .catch(next);
 };
 
-module.exports.likeCard = (req, res) => {
+module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then((user) => {
-      if (user) {
-        res.send({ data: user });
-      } else {
-        res.status(404).send({ message: 'Card not found.' });
+    .then((card) => {
+      if (card) {
+        res.send({ data: card });
+      } else if (!card) {
+        throw new NotFoundError('Card not found.');
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  card cannot be created.Card not found' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+      if (err.name === 'CastError' || err.statusCode === 404) {
+        throw new NotFoundError('Card not found.');
       }
-    });
+    })
+    .catch(next);
 };
 
-module.exports.dislikeCard = (req, res) => {
+module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then((user) => {
-      if (user) {
-        res.send({ data: user });
-      } else {
-        res.status(404).send({ message: 'Card not found.' });
+    .then((card) => {
+      if (card) {
+        res.send({ data: card });
+      } else if (!card) {
+        throw new NotFoundError('Card not found.');
       }
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Data validation failed:  card cannot be created.' });
-      } else if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Card not found.' });
-      } else {
-        res.status(500).send({ message: 'Internal server error' });
+      if (err.name === 'CastError' || err.statusCode === 404) {
+        throw new NotFoundError('Card not found.');
       }
-    });
+    })
+    .catch(next);
 };
