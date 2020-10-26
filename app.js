@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
@@ -20,6 +21,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(requestLogger);
 
 app.use('/users', auth, users);
 app.use('/cards', auth, cards);
@@ -41,6 +44,7 @@ app.post('/signup', celebrate({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
