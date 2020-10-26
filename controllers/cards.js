@@ -50,6 +50,7 @@ module.exports.deleteCardById = (req, res, next) => {
       if (err.name === 'CastError') {
         throw new NotFoundError('Card not found.');
       }
+      next(err);
     })
     .catch(next);
 };

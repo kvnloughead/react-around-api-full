@@ -1,12 +1,12 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const { celebrate, Joi, errors } = require('celebrate');
+
 const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
-
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
-const InternalServerError = require('./errors/InternalServerError.js');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -23,10 +23,25 @@ mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
 
 app.use('/users', auth, users);
 app.use('/cards', auth, cards);
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+}), login);
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
+    avatar: Joi.string().required().uri({ scheme: ['http', 'https'] }),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
+  }),
+}), createUser);
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
