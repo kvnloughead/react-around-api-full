@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+const cors = require('cors');
 
 const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
@@ -11,6 +12,9 @@ const auth = require('./middleware/auth');
 
 const { PORT = 3000 } = process.env;
 const app = express();
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
