@@ -1,10 +1,16 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const User = require('../models/user');
+
+dotenv.config();
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({}).select('+password')
@@ -101,7 +107,7 @@ module.exports.login = (req, res, next) => {
       if (!matched) {
         throw new UnauthorizedError('Incorrect password or email.');
       }
-      const token = jwt.sign({ _id: req._id }, 'super-strong-secret', { expiresIn: '7d' });
+      const token = jwt.sign({ _id: req._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
       res.cookie('token', token, { httpOnly: true });
       res.json({ token });
     })
