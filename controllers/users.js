@@ -19,7 +19,8 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
-  User.findById(req.params.id).select('+password')
+  debugger;
+  User.findById(req.params.id === 'me' ? req.user._id : req.params.id).select('+password')
     .then((user) => {
       if (user) {
         res.send({ data: user });
