@@ -21,13 +21,16 @@ module.exports = (req, res, next) => {
   } catch (err) {
     throw new UnauthorizedError('Authorization Required');
   }
+  debugger;
   req.user = payload;
 
   User.findOne(req.email)
     .select('+password')
     .then((user) => {
+      debugger;
       req.user._id = user._id;
     })
     .then(() => next())
     .catch(next);
+  next();
 };

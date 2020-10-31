@@ -7,12 +7,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Kevin Loughead',
   },
   about: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'Web Developer',
   },
   avatar: {
     type: String,
@@ -23,6 +25,7 @@ const userSchema = new mongoose.Schema({
         return pattern.test(v);
       },
     },
+    default: 'https://thelinksroadanimalclinic.com/files/2014/02/ricky-800x534-266x300.jpg',
   },
   email: {
     type: String,
