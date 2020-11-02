@@ -19,6 +19,7 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
+  console.log(req);
   User.findById(req.params.id === 'me' ? req.user._id : req.params.id).select('+password')
     .then((user) => {
       if (user) {
@@ -94,12 +95,15 @@ module.exports.updateAvatar = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
+  console.log('logging in')
   const { email, password } = req.body;
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
         throw new UnauthorizedError('Incorrect password or email.');
       } else {
+        console.log(user);
+        req._id = user._id;
         return bcrypt.compare(password, user.password);
       }
     })
@@ -108,8 +112,9 @@ module.exports.login = (req, res, next) => {
         throw new UnauthorizedError('Incorrect password or email.');
       }
       const token = jwt.sign({ _id: req._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+      res.header('authorization', `Bearer ${token}`);
       res.cookie('token', token, { httpOnly: true });
-      res.json({ token });
+      res.status(200).send({ token });
     })
     .catch(next);
 };

@@ -5,11 +5,15 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const Card = require('../models/card');
 
 module.exports.getCards = (req, res, next) => {
+  console.log(req)
+  debugger;
   Card.find({})
     .then((card) => {
+      debugger;
       res.send({ data: card });
     })
     .catch(() => {
+      debugger;
       throw new InternalServerError('An error has occured on the server');
     })
     .catch(next);
