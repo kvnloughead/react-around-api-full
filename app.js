@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
-const cors = require('cors')
+const cors = require('cors');
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
 const users = require('./routes/users.js');
@@ -10,7 +10,8 @@ const cards = require('./routes/cards.js');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3001 } = process.env;
+console.log(PORT)
 const app = express();
 
 app.use(cors());
