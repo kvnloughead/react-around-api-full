@@ -5,15 +5,11 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 const Card = require('../models/card');
 
 module.exports.getCards = (req, res, next) => {
-  console.log(req)
-  debugger;
   Card.find({})
     .then((card) => {
-      debugger;
       res.send({ data: card });
     })
     .catch(() => {
-      debugger;
       throw new InternalServerError('An error has occured on the server');
     })
     .catch(next);
@@ -27,7 +23,7 @@ module.exports.createCard = (req, res, next) => {
     owner: req.user._id,
   })
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -42,7 +38,7 @@ module.exports.deleteCardById = (req, res, next) => {
     .then((card) => {
       if (card && req.user._id.toString() === card.owner.toString()) {
         Card.deleteOne(card).then((deletedCard) => {
-          res.send({ data: deletedCard });
+          res.send(deletedCard);
         });
       } else if (!card) {
         throw new NotFoundError('Card not found.');
@@ -67,7 +63,7 @@ module.exports.likeCard = (req, res, next) => {
   )
     .then((card) => {
       if (card) {
-        res.send({ data: card });
+        res.send(card);
       } else if (!card) {
         throw new NotFoundError('Card not found.');
       }
@@ -88,7 +84,7 @@ module.exports.dislikeCard = (req, res, next) => {
   )
     .then((card) => {
       if (card) {
-        res.send({ data: card });
+        res.send(card);
       } else if (!card) {
         throw new NotFoundError('Card not found.');
       }
