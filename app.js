@@ -1,14 +1,9 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-<<<<<<< HEAD
-const { celebrate, Joi, errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middleware/logger');
-=======
 const {
   celebrate, Joi, errors, isCelebrateError,
 } = require('celebrate');
->>>>>>> dev
 const cors = require('cors');
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -18,7 +13,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(cors());
