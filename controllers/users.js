@@ -13,18 +13,12 @@ dotenv.config();
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
-  console.log('here')
   User.find({}).select('+password')
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      console.log('first catch')
-      console.log(err)
-      next(err)
-    });
+    .catch(next);
 };
 
 module.exports.getUserById = (req, res, next) => {
-  console.log(req);
   User.findById(req.params.id === 'me' ? req.user._id : req.params.id).select('+password')
     .then((user) => {
       if (user) {
@@ -100,14 +94,12 @@ module.exports.updateAvatar = (req, res, next) => {
 };
 
 module.exports.login = (req, res, next) => {
-  console.log('logging in')
   const { email, password } = req.body;
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
         throw new UnauthorizedError('Incorrect password or email.');
       } else {
-        console.log(user);
         req._id = user._id;
         return bcrypt.compare(password, user.password);
       }
