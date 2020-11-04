@@ -13,9 +13,14 @@ dotenv.config();
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
+  console.log('here')
   User.find({}).select('+password')
     .then((user) => res.send({ data: user }))
-    .catch(next);
+    .catch((err) => {
+      console.log('first catch')
+      console.log(err)
+      next(err)
+    });
 };
 
 module.exports.getUserById = (req, res, next) => {

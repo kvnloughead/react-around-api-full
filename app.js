@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const { celebrate, Joi, errors, isCelebrateError } = require('celebrate');
+const {
+  celebrate, Joi, errors, isCelebrateError,
+} = require('celebrate');
 const cors = require('cors');
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -9,7 +11,6 @@ const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
-const UnauthorizedError = require('./errors/UnauthorizedError');
 const BadRequestError = require('./errors/BadRequestError');
 
 const { PORT = 3001 } = process.env;
