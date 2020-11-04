@@ -1,21 +1,28 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+<<<<<<< HEAD
 const { celebrate, Joi, errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+=======
+const {
+  celebrate, Joi, errors, isCelebrateError,
+} = require('celebrate');
+>>>>>>> dev
 const cors = require('cors');
 
+const { requestLogger, errorLogger } = require('./middleware/logger');
 const users = require('./routes/users.js');
 const cards = require('./routes/cards.js');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
+const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 app.use(cors());
 app.options('*', cors());
-
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -53,11 +60,15 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-//app.post('/signup', createUser);
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(errorLogger);
+app.use((err, req, res, next) => {
+  if (isCelebrateError(err)) {
+    throw new BadRequestError('Data validation error.  Request cannot be completed.');
+  }
+  next(err);
+});
 app.use(errors());
 
 app.use((err, req, res, next) => {

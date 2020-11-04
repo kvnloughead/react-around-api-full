@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 const UnauthorizedError = require('../errors/UnauthorizedError');
-const User = require('../models/user');
 
 dotenv.config();
 
@@ -21,13 +20,8 @@ module.exports = (req, res, next) => {
   } catch (err) {
     throw new UnauthorizedError('Authorization Required');
   }
+
   req.user = payload;
 
-  User.findOne(req.email)
-    .select('+password')
-    .then((user) => {
-      req.user._id = user._id;
-    })
-    .then(() => next())
-    .catch(next);
+  next();
 };

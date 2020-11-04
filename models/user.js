@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         return pattern.test(v);
       },
     },
-    default:  'https://thelinksroadanimalclinic.com/files/2014/02/ricky-800x534-266x300.jpg',
+    default: 'https://thelinksroadanimalclinic.com/files/2014/02/ricky-800x534-266x300.jpg',
   },
   email: {
     type: String,
