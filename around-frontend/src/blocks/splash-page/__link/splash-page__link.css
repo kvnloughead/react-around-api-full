@@ -1,0 +1,16 @@
+.splash-page__submit {
+  color: black;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-decoration: none;
+
+  width: 358px;
+  height: 50px;
+  background-color: #fff;
+  margin-top: 216px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}

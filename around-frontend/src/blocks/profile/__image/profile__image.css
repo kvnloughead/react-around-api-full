@@ -1,0 +1,22 @@
+.profile__image {
+  position: relative;
+  border-radius: 50%;
+  width: 120px; 
+  height: 120px;
+  margin: 0 30px 0 0;
+  object-fit: cover;
+  z-index: 2;
+}
+
+.profile__image:hover {
+  opacity: .2;
+  z-index: 0;
+  cursor: url('../../../images/icons/finger.svg'), auto;
+}
+
+@media screen and (max-width: 730px) {
+  .profile__image {
+    margin: 0;
+  }
+}
+

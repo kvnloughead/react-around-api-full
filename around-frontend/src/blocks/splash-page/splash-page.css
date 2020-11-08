@@ -1,0 +1,32 @@
+@import url('./__form/splash-page__form.css');
+@import url('./__submit/splash-page__submit.css');
+@import url('./__input/splash-page__input.css');
+@import url('./__signup/splash-page__signup.css');
+@import url('./__call-out/splash-page__call-out.css');
+@import url('./__title/splash-page__title.css');
+@import url('./__text/splash-page__text.css');
+
+.splash-page {
+  height: 100vh;
+  width: 882px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  /* overriding popup styles */
+  visibility: visible;
+  margin-top: 0;
+  margin-left: 0;
+  left: 0;
+  background-color: #000;
+  box-sizing: content-box;
+  border-radius: 0;
+  padding: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .login {
+    width: 100%;
+  }
+}

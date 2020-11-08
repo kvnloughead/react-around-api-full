@@ -1,0 +1,3 @@
+.place__like-btn.place__like-btn_clicked {
+  background-image: url('../../../../images/icons/heart-been-clicked.svg');
+}

@@ -1,0 +1,25 @@
+.button.button_action_add {
+  width: 150px;
+  height: 50px;
+  border: 2px solid  #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 2px;
+  margin: 33px 0 0 auto;
+  background-image: url('../../../images/icons/plus.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20% 50%;
+}
+
+
+@media screen and (max-width: 730px) {
+  .button.button_action_add {
+    width: 282px;
+    background-size: 17px 17px;
+    align-self: center;
+    margin-left: 0;
+  }
+}
+
+
+

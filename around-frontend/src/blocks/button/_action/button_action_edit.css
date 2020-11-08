@@ -1,0 +1,25 @@
+.button_action_edit {
+  width: 24px;
+  height: 24px;
+  border: 1px solid  #FFFFFF;
+  margin: -15px 0 4px 24px;
+  background-image: url('../../../images/icons/edit-pen.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50% 50%;
+}
+
+@media screen and (max-width: 730px) {
+  .button.button_action_edit {
+    height: 18px;
+    width: 18px;
+    margin: 3px 0 0 12px;
+  }
+}
+
+@media screen and (max-width: 930px) {
+  .button.button_action_edit {
+    margin-right: 15px;
+  }
+}
+

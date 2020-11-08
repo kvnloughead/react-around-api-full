@@ -1,0 +1,7 @@
+.header__links {
+  color: #fff;
+  list-style: none;
+  margin-bottom: 46px;
+  display: flex;
+  justify-content: flex-start;
+}

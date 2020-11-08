@@ -1,0 +1,14 @@
+.place__like-btn {
+  background:  #FFFFFF;
+  background-image: url('../../../images/icons/heart.svg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border: none;
+  height: 18px;
+  width: 21px;
+}
+
+.place__like-btn:hover {
+  cursor: pointer;
+  opacity: .6;
+}

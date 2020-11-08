@@ -1,0 +1,15 @@
+.popup__image-caption {
+  font-size: 12px;
+  line-height: 1.25;
+  margin-top: 10px;
+  color: #FFFFFF;
+}
+
+@media screen and (max-width: 1279px) {
+  .popup__image-caption {
+    font-size: 12px;
+    line-height: 1.25;
+    margin-top: 10px;
+    color: #FFFFFF;
+  }
+}

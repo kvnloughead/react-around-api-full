@@ -1,0 +1,11 @@
+.place__name {
+  font-weight: 900;
+  font-size: 24px;    
+  line-height: 1.208;
+  margin-left: 21px;
+  /* This truncates the name when too long */
+  max-width: 211px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

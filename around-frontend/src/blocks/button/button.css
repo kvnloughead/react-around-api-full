@@ -1,0 +1,29 @@
+@import url('./_action/button_action_add.css');
+@import url('./_action/button_action_edit.css');
+@import url('./_action/button_action_submit.css');
+@import url('./_action/button_action_close.css');
+@import url('./_action/button_action_change-avatar.css');
+@import url('./_inactive/button_inactive.css');
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000;
+}
+
+.button:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+.button.button_action_change-avatar {
+  background-image: url('../../../images/icons/pen.svg');
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  background-size: 100% 100%;
+  border: none; 
+  height: 26px;
+  width: 26px;
+  top: -73px;
+  right: -47px;
+  z-index: 1;
+}

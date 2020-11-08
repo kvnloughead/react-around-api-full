@@ -1,0 +1,43 @@
+.profile__name {
+  color:  #FFFFFF;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 1.33;
+  margin: 0;
+  max-width: 384px;
+  /* This magic makes the scrolling happen */
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.profile__name::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 930px) {
+  .profile__name {
+    max-width: 38vw;
+    font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .profile__name {
+    font-size: 22px;
+    line-height: 56px;
+    width: 201px;
+    max-width: 201px;
+    margin-top: 30px;
+    margin-left: 41px;
+  }
+}
+
+
+/* @media screen and (max-width: 730px) {
+  .profile__name {
+    
+  } */
+/* } */
+
