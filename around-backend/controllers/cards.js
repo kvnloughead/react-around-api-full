@@ -23,6 +23,7 @@ module.exports.createCard = (req, res, next) => {
     owner: req.user._id,
   })
     .then((card) => {
+      console.log(card);
       res.send(card);
     })
     .catch((err) => {
