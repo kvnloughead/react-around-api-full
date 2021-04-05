@@ -117,7 +117,7 @@ class Api {
 
 const api = new Api({
   // baseUrl: "https://around.nomoreparties.co/v1/group-2",
-  baseUrl: "http://localhost:3001",
+  baseUrl: "http://localhost:3000",
 });
 
 export default api;
