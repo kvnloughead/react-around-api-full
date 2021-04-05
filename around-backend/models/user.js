@@ -20,10 +20,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        const pattern = /^(http:\/\/|https:\/\/)(www.)?[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]+\.[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]{2,}#?$/igm;
-        return pattern.test(v);
-      },
+      validator: (v) => validator.isURL(v),
+      message: 'Mongoose says -- invalid link',
     },
     default: 'https://thelinksroadanimalclinic.com/files/2014/02/ricky-800x534-266x300.jpg',
   },
