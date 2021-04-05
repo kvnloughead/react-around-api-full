@@ -23,10 +23,10 @@ module.exports.createCard = (req, res, next) => {
     owner: req.user._id,
   })
     .then((card) => {
-      console.log(card);
       res.send(card);
     })
     .catch((err) => {
+      console.log(err);
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Data validation failed:  card cannot be created.');
       }
