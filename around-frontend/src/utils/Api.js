@@ -5,7 +5,7 @@ class Api {
   }
 
   getCardList(token) {
-  
+
     return fetch(this.baseUrl + "/cards", {
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +96,7 @@ class Api {
     });
   }
 
-  updateLikes(cardId, isLiked, token) {  
+  updateLikes(cardId, isLiked, token) {
     const method = isLiked ? "DELETE" : "PUT";
     return fetch(
       this.baseUrl + `/cards/likes/${cardId}`,
@@ -117,7 +117,8 @@ class Api {
 
 const api = new Api({
   // baseUrl: "https://around.nomoreparties.co/v1/group-2",
-  baseUrl: "http://localhost:3000",
+  // baseUrl: "https://aroundreact.herokuapp.com",
+  baseUrl: 'http://localhost:3000'
 });
 
 export default api;
