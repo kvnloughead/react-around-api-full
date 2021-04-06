@@ -21,7 +21,7 @@ app.options('*', cors());
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/anothernewdb', {
+mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
