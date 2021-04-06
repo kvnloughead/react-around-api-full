@@ -49,6 +49,7 @@ module.exports.createUser = (req, res, next) => {
     }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
+      console.log(err);
       if (err.name === 'ValidationError' || err.name === 'MongoError') {
         throw new BadRequestError('Data validation failed:  user cannot be created');
       }

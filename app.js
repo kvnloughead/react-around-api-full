@@ -69,6 +69,7 @@ app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  console.log(err);
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({ message: statusCode === 500 ? 'An error has occured on the server' : message });
 });
@@ -77,6 +78,6 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Requested resource not found' });
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(`App listening at port ${PORT}`);
 });
