@@ -13,7 +13,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, ORMONGO_RS_URL } = process.env;
 const app = express();
 
 app.use(cors());
@@ -21,7 +21,8 @@ app.options('*', cors());
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/aroundb', {
+// mongodb://127.0.0.1:27017/aroundb
+mongoose.connect(ORMONGO_RS_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
