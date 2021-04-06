@@ -9,3 +9,15 @@
   right: calc(50% - 441px);
   text-decoration: none;
 }
+
+@media screen and (max-width: 930px) {
+  .splash-page__call-out {
+    right: calc(50% - 315px);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .splash-page__call-out {
+    right: calc(50% - 178px);
+  }
+}

@@ -9,7 +9,7 @@
   background-size: 50% 50%;
 }
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 650px) {
   .button.button_action_edit {
     height: 18px;
     width: 18px;
@@ -19,7 +19,7 @@
 
 @media screen and (max-width: 930px) {
   .button.button_action_edit {
-    margin-right: 15px;
+    margin-right: 40px;
   }
 }
 

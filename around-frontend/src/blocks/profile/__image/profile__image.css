@@ -14,7 +14,7 @@
   cursor: url('../../../images/icons/finger.svg'), auto;
 }
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 650px) {
   .profile__image {
     margin: 0;
   }

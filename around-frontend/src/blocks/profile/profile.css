@@ -12,15 +12,14 @@
 
 @media screen and (max-width: 930px) {
   .profile {
-    width: 100%;
+    width: auto;
   }
 }
 
-@media screen and (max-width: 730px) {
+@media screen and (max-width: 650px) {
   .profile {
-    flex-direction: column;
-    justify-content: center;
+    flex-wrap: wrap;
     align-items: center;
-    margin: 38px 19px 36px 0;
+    justify-content: center;
   }
 }

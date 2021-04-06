@@ -14,16 +14,21 @@
 
 @media screen and (max-width: 930px) {
   .header {
-    width: 100%;
+    width: 632px;
   }
 }
 
-@media screen and (max-width: 620px) {
+@media screen and (max-width: 650px) {
   .header {
-    width: calc(100vw + 19px);
-    margin-left: -19px;
+    width: 362px;
     margin-top: 28px;
   }
 }
 
+@media screen and (max-width: 500px) {
+  .header {
+    display: flex;
+    align-items: center;
+  }
+}
  
