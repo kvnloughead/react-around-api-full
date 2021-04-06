@@ -22,7 +22,7 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 // mongodb://127.0.0.1:27017/aroundb
-mongoose.connect(ORMONGO_RS_URL, {
+mongoose.connect('mongodb://iad2-c12-2.mongo.objectrocket.com:52234,iad2-c12-0.mongo.objectrocket.com:52234,iad2-c12-1.mongo.objectrocket.com:52234/?replicaSet=29e0b82b7dce4f8896c08dc30bc16235&ssl=true', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
