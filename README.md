@@ -1,18 +1,9 @@
-# Around the U.S.
+# Around the U.S. Back End
 
-This repository contains my implementation of "Around the U.S." a responsive, single page, photo-gallery project, which is a part of the Practicum by Yandex web development curriculum.   This backend is written in Express, using MongoDB, and the frontend is written in React.
-
+This repository contains the full API of my "Around the U.S." photo-gallery project, which is a part of the Practicum by Yandex web development curriculum.   This app is written in Express, uses MongoDB and has a React front-end.
+ 
 ## Features
 
-### Front End
-1. Popup modals for
-   - Updating profile info (including avatar image) 
-   - Adding new picture cards
-   - Deleting cards (user's own cards only)
-2. Liking/unliking cards 
-3. User authentication
-
-### Back End
 - User routes
   - Registration and login
   - Updating user information and profile picture
@@ -27,12 +18,22 @@ This repository contains my implementation of "Around the U.S." a responsive, si
   - Error logging with Winston
   - Centralized Error Handling
 
-
 ## Links
-The front-end is deployed [here](https://kevin.students.nomoreparties.site/) and the api is hosted [here](https://api.kevin.students.nomoreparties.site/). The server's public IP address is 40.121.108.223.
+The front-end is deployed [here](https://kevin.students.nomoreparties.site/) and the api is hosted [here](https://api.kevin.students.nomoreparties.site/). The repo for the front-end is [here](https://github.com/kvnloughead/react-around-auth).  The server's public IP address is 40.121.108.223.
 
 
+## Directories
+
+`/public` — static files from the build of the React front-end app.
+
+`/data` — JSON files to temporarily emulate database integration.
+
+`/routes` — routing files.
+
+All other directories are optional and may be created by the developer if necessary. 
 
 ## Running the Project
 
-Run `npm run dev` in the directory of the backend and `npm start` in that of the frontend.
+`npm run start` — to launch the server.
+
+`npm run dev` — to launch the server with the hot reload feature.
