@@ -13,7 +13,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 3000, ORMONGO_RS_URL } = process.env;
+const { PORT = 3000, MONGO_URI } = process.env;
 const app = express();
 
 app.use(cors());
@@ -22,7 +22,7 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 // mongodb://127.0.0.1:27017/aroundb
-mongoose.connect('mongodb://iad2-c12-2.mongo.objectrocket.com:52234,iad2-c12-0.mongo.objectrocket.com:52234,iad2-c12-1.mongo.objectrocket.com:52234/?replicaSet=29e0b82b7dce4f8896c08dc30bc16235&ssl=true', {
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
