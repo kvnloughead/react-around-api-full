@@ -60,7 +60,7 @@ app.post('/api/signup', celebrate({
 }), createUser);
 
 // app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'around-fronted/build')));
+app.use(express.static(path.join(__dirname, 'around-frontend/build')));
 
 app.use(errorLogger);
 app.use((err, req, res, next) => {
