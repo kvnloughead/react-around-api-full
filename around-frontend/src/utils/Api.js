@@ -117,7 +117,7 @@ class Api {
 
 const api = new Api({
   // baseUrl: "https://around.nomoreparties.co/v1/group-2",
-  baseUrl: "https://aroundreact.herokuapp.com",
+  baseUrl: "https://aroundreact.herokuapp.com/api",
   // baseUrl: 'http://localhost:5000'
 });
 
