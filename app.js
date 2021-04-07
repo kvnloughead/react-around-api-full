@@ -16,7 +16,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 3000, MONGODB_URI } = process.env;
+const { PORT = 5000, MONGODB_URI } = process.env;
 const app = express();
 
 app.use(cors());
@@ -34,22 +34,22 @@ mongoose.connect(MONGODB_URI, {
 
 app.use(requestLogger);
 
-app.use('/users', auth, users);
-app.use('/cards', auth, cards);
+app.use('/api/users', auth, users);
+app.use('/api/cards', auth, cards);
 
-app.get('/crash-test', () => {
+app.get('/api/crash-test', () => {
   setTimeout(() => {
     throw new Error('Server will crash now');
   }, 0);
 });
 
-app.post('/signin', celebrate({
+app.post('/api/signin', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 }), login);
-app.post('/signup', celebrate({
+app.post('/api/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
@@ -59,7 +59,8 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'around-fronted/build')));
 
 app.use(errorLogger);
 app.use((err, req, res, next) => {
@@ -81,6 +82,6 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Requested resource not found' });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(`App listening at port ${PORT}`);
 });

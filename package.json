@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
+    "heroku-postbuild": "cd around-frontend && npm install && npm run build",
     "dev": "nodemon app.js"
   },
   "repository": {
