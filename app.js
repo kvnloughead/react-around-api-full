@@ -13,7 +13,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 3000, MONGO_URI } = process.env;
+const { PORT = 3000, MONGODB_URI } = process.env;
 const app = express();
 
 app.use(cors());
@@ -22,7 +22,7 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
 // mongodb://127.0.0.1:27017/aroundb
-mongoose.connect(MONGO_URI, {
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
