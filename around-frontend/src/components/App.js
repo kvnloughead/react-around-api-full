@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
   useHistory,
@@ -129,7 +128,7 @@ function App() {
     const [email, password] = [e.target.email.value, e.target.password.value];
     auth
       .authorize(email, password)
-      .then((data) => {      
+      .then((data) => {
         if (data && data.token) {
           setToken(data.token);
           localStorage.setItem('token', data.token);
@@ -148,7 +147,7 @@ function App() {
         resetForm();
       })
       .then(() => {
-        history.push('/around');
+        history.push('/');
       })
       .catch((err) => console.log(err.message));
   };
@@ -229,92 +228,81 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <Router>
-        <Header
-          userEmail={userEmail}
-          loggedIn={loggedIn}
-          handleSignOut={onSignOut}
+      <Route exact path='/'>
+        {loggedIn ? <Redirect to='/' /> : <Redirect to='/signin' />}
+      </Route>
+      <Header
+        userEmail={userEmail}
+        loggedIn={loggedIn}
+        handleSignOut={onSignOut}
+      />
+      <Switch>
+      <ProtectedRoute
+        exact path='/'
+        loggedIn={loggedIn}
+        component={Main}
+        onCloseButtons={closeAllPopups}
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+        onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
+        isAddPlacePopupOpen={isAddPlacePopupOpen}
+        isEditAvatarPopupOpen={isEditAvatarPopupOpen}
+        cards={cards}
+        selectedCard={selectedCard}
+      />
+      <Route path='/signup'>
+        <Register
+          registered={registered}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          handleRegisterSubmit={handleRegisterSubmit}
+          setUserEmail={setUserEmail}
+          handleLogin={handleLogin}
+          handleToolTip={handleToolTip}
         />
-        <Switch>
-          <Route exact path='/signin'>
-            <Login
-              loggedIn={loggedIn}
-              email={email}
-              setEmail={setEmail}
-              password={password}
-              setPassword={setPassword}
-              userEmail={setUserEmail}
-              setUserEmail={setUserEmail}
-              handleLogin={handleLogin}
-              handleLoginSubmit={handleLoginSubmit}
-              handleToolTip={handleToolTip}
-            />
-            <InfoToolTip
-              isOpen={isInfoToolTipOpen}
-              onClose={closeAllPopups}
-              loggedIn={loggedIn}
-              mode={tooltipMode}
-            />
-          </Route>
-          <Route exact path='/signup'>
-            <Register
-              registered={registered}
-              email={email}
-              setEmail={setEmail}
-              password={password}
-              setPassword={setPassword}
-              handleRegisterSubmit={handleRegisterSubmit}
-              setUserEmail={setUserEmail}
-              handleLogin={handleLogin}
-              handleToolTip={handleToolTip}
-            />
-            <InfoToolTip
-              isOpen={isInfoToolTipOpen}
-              onClose={closeAllPopups}
-              loggedIn={loggedIn}
-              mode={tooltipMode}
-            />
-          </Route>
-          <Route exact path='/'>
-            {loggedIn ? <Redirect to='/around' /> : <Redirect to='/signin' />}
-          </Route>
-          <Route path='/around'>
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-            />
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddNewCard={handleAddNewCard}
-            />
-            <ProtectedRoute
-              path='/around'
-              loggedIn={loggedIn}
-              component={Main}
-              onCloseButtons={closeAllPopups}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
-              isAddPlacePopupOpen={isAddPlacePopupOpen}
-              isEditAvatarPopupOpen={isEditAvatarPopupOpen}
-              cards={cards}
-              selectedCard={selectedCard}
-            />
-            <Footer />
-          </Route>
-          <Redirect from='*' to='/' />
+        </Route>
+        <Route path='/signin'>
+          <Login
+            loggedIn={loggedIn}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            userEmail={setUserEmail}
+            setUserEmail={setUserEmail}
+            handleLogin={handleLogin}
+            handleLoginSubmit={handleLoginSubmit}
+            handleToolTip={handleToolTip}
+          />
+        </Route>
         </Switch>
-      </Router>
+        <InfoToolTip
+          isOpen={isInfoToolTipOpen}
+          onClose={closeAllPopups}
+          loggedIn={loggedIn}
+          mode={tooltipMode}
+        />
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddNewCard={handleAddNewCard}
+        />
+        <Footer />
     </CurrentUserContext.Provider>
   );
 }
