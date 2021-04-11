@@ -149,7 +149,10 @@ function App() {
       .then(() => {
         history.push('/');
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => {
+        handleToolTip('failure');
+        console.log(err.message)
+      });
   };
 
     const handleRegisterSubmit = (e) => {
@@ -188,8 +191,10 @@ function App() {
       auth
         .getContent(token)
         .then((res) => {
-          setLoggedIn(true);
-          setUserEmail(res.data.email);
+          if (res.ok) {
+            setLoggedIn(true);
+            setUserEmail(res.data.email);
+          }
         })
         .catch((err) => {
           console.log(err);

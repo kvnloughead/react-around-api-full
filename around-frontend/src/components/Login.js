@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import '../blocks/splash-page/splash-page.css';
 import PopupWithForm from './PopupWithForm';
-import auth from '../utils/Auth';
 
 function Login({ loggedIn, email, setEmail, password, setPassword, handleLoginSubmit, userEmail, setUserEmail, onClose }) {
   const history = useHistory();
 
   React.useEffect(() => {
     if (loggedIn) {
-      history.push('/around');
+      history.push('/');
       setUserEmail(email || userEmail);
     }
   });
@@ -54,7 +53,7 @@ function Login({ loggedIn, email, setEmail, password, setPassword, handleLoginSu
         />
         <button
           className='splash-page__submit'
-          to='/around'
+          to='/'
         >
           Log in
         </button>
