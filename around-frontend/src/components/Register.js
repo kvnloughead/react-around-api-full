@@ -8,14 +8,14 @@ function Register({ registered, handleRegisterSubmit, email, setEmail, password,
   const history = useHistory();
 
   useEffect(() => {
-    if (localStorage.getItem('token')) { 
-      history.push('/around');
+    if (localStorage.getItem('token')) {
+      history.push('/');
     }
   }, [history]);
 
   useEffect(() => {
     if (registered) {
-     
+
       history.push('/signin');
     }
   }, [history, registered]);
@@ -58,8 +58,7 @@ function Register({ registered, handleRegisterSubmit, email, setEmail, password,
           />
           <button
             className='splash-page__submit'
-            // onClick={handleSubmit}
-            to='/around'
+            to='/'
           >
             Sign up
           </button>

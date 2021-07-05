@@ -9,7 +9,7 @@ function Login({ loggedIn, email, setEmail, password, setPassword, handleLoginSu
 
   React.useEffect(() => {
     if (loggedIn) {
-      history.push('/around');
+      history.push('/');
       setUserEmail(email || userEmail);
     }
   });
@@ -54,7 +54,7 @@ function Login({ loggedIn, email, setEmail, password, setPassword, handleLoginSu
         />
         <button
           className='splash-page__submit'
-          to='/around'
+          to='/'
         >
           Log in
         </button>
