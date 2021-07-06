@@ -10,7 +10,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Main from './Main';
 import Footer from './Footer';
 import api from '../utils/Api';
-import auth from '../utils/Auth';
+import * as auth from '../utils/Auth';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
@@ -20,6 +20,7 @@ import InfoToolTip from './InfoToolTip';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
+
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(
     false
   );
