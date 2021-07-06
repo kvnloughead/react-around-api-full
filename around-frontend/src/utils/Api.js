@@ -1,3 +1,5 @@
+import process from "process";
+
 class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
@@ -116,8 +118,8 @@ class Api {
 }
 
 const api = new Api({
-  // baseUrl: "https://around.nomoreparties.co/v1/group-2",
-  baseUrl: "https://aroundreact.herokuapp.com/api",
+  // baseUrl: "https://aroundreact.herokuapp.com/api",
+  baseUrl: process.env.NODE_ENV === 'production' ? "https://aroundreact.herokuapp.com/api" : 'http://localhost:5000/api',
   // baseUrl: 'http://localhost:5000'
 });
 
