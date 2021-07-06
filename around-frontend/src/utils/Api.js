@@ -118,9 +118,7 @@ class Api {
 }
 
 const api = new Api({
-  // baseUrl: "https://aroundreact.herokuapp.com/api",
   baseUrl: process.env.NODE_ENV === 'production' ? "https://aroundreact.herokuapp.com/api" : 'http://localhost:5000/api',
-  // baseUrl: 'http://localhost:5000'
 });
 
 export default api;

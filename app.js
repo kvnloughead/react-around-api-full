@@ -24,7 +24,6 @@ app.options('*', cors());
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
-// mongodb://127.0.0.1:27017/aroundb
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -59,7 +58,6 @@ app.post('/api/signup', celebrate({
   }),
 }), createUser);
 
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'around-frontend/build')));
 
 app.use(errorLogger);
@@ -73,9 +71,7 @@ app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  console.log(err);
   const { statusCode = 500, message } = err;
-  console.log(err);
   res.status(statusCode).send({ message: statusCode === 500 ? 'An error has occured on the server' : message });
 });
 
