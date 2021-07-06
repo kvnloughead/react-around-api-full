@@ -1,5 +1,3 @@
-import process from "process";
-
 class Api {
   constructor(options) {
     this.baseUrl = options.baseUrl;
@@ -118,7 +116,7 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: process.env.NODE_ENV === 'production' ? "https://aroundreact.herokuapp.com/api" : 'http://localhost:5000/api',
+  baseUrl: process.env.REACT_APP_NODE_ENV === 'production' ? "https://aroundreact.herokuapp.com/api" : 'http://localhost:5000/api',
 });
 
 export default api;
