@@ -1,5 +1,4 @@
 const BASE_URL = process.env.REACT_APP_NODE_ENV === 'production' ? "https://aroundreact.herokuapp.com/api" : 'http://localhost:5000/api';
-console.log(process.env)
 
 module.exports.register = (email, password) => {
   return fetch(`${BASE_URL}/signup`, {

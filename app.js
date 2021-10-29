@@ -16,7 +16,8 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middleware/auth');
 const BadRequestError = require('./errors/BadRequestError');
 
-const { PORT = 5000, MONGODB_URI } = process.env;
+// TODO fix MONGODB_URI
+const { PORT = 5000, MONGODB_URI = 'mongodb://localhost:27017/around' } = process.env;
 const app = express();
 
 app.use(cors());
